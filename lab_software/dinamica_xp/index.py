@@ -4,13 +4,13 @@ CLIENTES_CSV = 'assets/clientes.csv'
 PAGAMENTOS_CSV = 'assets/pagamentos.csv'
 
 clientes_frame = pd.read_csv(
-    CLIENTES_CSV, index_col=False, sep=';', encoding='utf-8')
+    CLIENTES_CSV, index_col=False, sep=';', encoding='utf-8', header=0)
 
 pagamentos_frame = pd.read_csv(
-    PAGAMENTOS_CSV, index_col=False, sep=';', encoding='utf-8')
+    PAGAMENTOS_CSV, index_col=False, sep=';', encoding='utf-8', header=0)
 
 
-def get_devedores(pagamentos_frame, clientes_frame):
+def get_devedores(pagamentos_df, clientes_df):
     """
     Retorna uma lista de dicionários com os devedores e seus respectivos valores
     devedores_list = [
@@ -20,11 +20,11 @@ def get_devedores(pagamentos_frame, clientes_frame):
         { 'id': 1, 'nome': 'Fulano'},
     ]
     """
-    devedores_list = pagamentos_frame[pagamentos_frame['foi_pago'].str.contains('f')]
+    devedores_list = pagamentos_df[pagamentos_df['foi_pago'].str.contains('f')]
     devedores_list = devedores_list.groupby(['cliente_id'], as_index=False)['valor'].sum()
     devedores_list = devedores_list.sort_values('valor', ascending=False).to_dict('records')
 
-    clientes_list = clientes_frame[['id', 'nome']]
+    clientes_list = clientes_df[['id', 'nome']]
     clientes_list = clientes_list.to_dict('records')
 
     return devedores_list, clientes_list
