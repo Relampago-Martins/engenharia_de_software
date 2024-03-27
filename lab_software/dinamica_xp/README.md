@@ -10,29 +10,39 @@ Não se sabe quantos clientes estão devendo e quanto eles devem.
 
 Gerar um relatório com a quantidade de clientes que estão devendo e quanto eles devem.
 
-## Funcionalidades
+## Histórias (Funcionalidades)
 
-1. Listar quanto cada cliente deve. Clientes que já pagaram não irão aparecer.
-2. Informar quantos clientes estão devendo.
-3. Informar valor total a receber.
-
-## Histórias
-
-1. Como gerente, eu quero poder consultar quanto cada cliente que está devendo, para que eu poça cobrar deles se necessário.
-
-2. Como gerente, eu quero poder visualizar, quantos clientes estão devendo, para saber quantos clientes a empresa tem que cobrar.
-
-3. Como gerente quero poder visualizar facilmente todo dia, o valor total a receber, para saber quanto dinheiro a empresa tem a receber.
+1. Ler arquivo de clientes
+2. Ler arquivo de pagamentos
+3. Transformar dados dos arquivos em dados manipuláveis
+4. Calcular quanto cada cliente deve
+5. Combinar os dados de clientes e pagamentos
+6. Listar cada cliente que está devendo e quanto ele deve
+7. Testar se programa está funcionando corretamente
 
 ## Testes de aceitação
 
-1. Dado que eu tenha 3 clientes que devem 100, 200 e 300 reais, quando eu consultar quanto cada cliente deve, então eu devo ver 100, 200 e 300 reais.
-
-2. Dado que eu tenha 3 clientes que devem 100, 200 e 300 reais, quando eu consultar quantos clientes estão devendo, então eu devo ver 3 clientes.
-
-3. Dado que eu tenha 3 clientes que devem 100, 200 e 300 reais, quando eu consultar o valor total a receber, então eu devo ver 600 reais.
+1. Testar se o arquivo pagamentos.csv foi acessado corretamente
+2. Testar se o arquivo clientes.csv foi acessado corretamente
+3. Testar se pagamentos.csv possui as colunas 'cliente_id', 'valor' e 'foi_pago'
+4. Testar se clientes.csv possui as colunas 'id' e 'nome'
+5. Testar se a função get_devedores retorna uma lista de dicionários
+6. Testar se os aquivos possuem dados além dos cabeçalhos
+7. Testar se a função float_to_currency retorna o valor correto
+8. Testar se a função get_devedores retorna o nome do cliente
+9. Testar se a função get_devedores retorna o valor correto do cliente
 
 ## Sprints
+
+| História | Complexidade (pnts)| Horas 3 |
+| -------- | -------- | -------- |
+| Ler arquivo de clientes   | 2     | 10 minutos     |
+| Ler arquivo de pagamentos   | 2     | 10 minutos     |
+| Transformar dados dos arquivos em dados manipuláveis    | 0     | 10 minutos     |
+| Calcular quanto cada cliente deve    | 13     | 10 minutos     |
+| Combinar os dados de clientes e pagamentos    | 5    | 10 minutos     |
+| Listar cada cliente que está devendo e quanto ele deve    | 2     | 10 minutos     |
+| Testar se programa está funcionando corretamente    | 20    | 10 minutos     |
 
 ## Melhorias
 
