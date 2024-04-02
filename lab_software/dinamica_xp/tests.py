@@ -68,7 +68,7 @@ class TestClientesPagamentos(unittest.TestCase):
 
     def test_retorno_get_devedores(self):
         """ Testar se a função get_devedores retorna uma lista de dicionários """
-        devedores_list, _ = get_devedores(self.pagamentos_frame, self.clientes_frame)
+        devedores_list = get_devedores(self.pagamentos_frame)
         self.assertIsInstance(devedores_list, list, 'get_devedores não retorna uma lista')
         self.assertTrue(
             all(isinstance(devedor, dict) for devedor in devedores_list),
