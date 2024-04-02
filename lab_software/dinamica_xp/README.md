@@ -2,6 +2,16 @@
 
 - Grupo: Pink Horse
 
+## Como rodar o projeto
+
+```bash
+    # windows
+    python3 -m venv .venv
+    ./.venv/scripts/activate
+    pip install -r requirements.txt
+    python index.py
+```
+
 ## Escopo do problema
 
 Não se sabe quantos clientes estão devendo e quanto eles devem.
@@ -50,4 +60,4 @@ Gerar um relatório com a quantidade de clientes que estão devendo e quanto ele
 
 ## Melhorias
 
-- [ ] Deixar o resultado mais bonito (usando lib `rich` -> `pip install rich`)
+- [X] Deixar o resultado mais bonito (usando lib `rich` -> `pip install rich`)
