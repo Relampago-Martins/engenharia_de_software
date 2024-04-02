@@ -8,11 +8,14 @@ def float_to_currency(value):
     """
     return f'R$ {value:,.2f}'.replace(',', '#').replace('.', ',').replace('#', '.')
 
-def int_to_date(date_int):
+def converter_formato_data(data_int):
     """
-    Converte um valor inteiro para uma string no formato de data
-    20210101 -> 01/01/2021
+        Extrair dia, mês e ano do inteiro original
     """
-    date_str = str(date_int)
-    
-    return datetime.strptime( date_str, '%Y%m%d').strftime('%d/%m/%Y')
+    dia = data_int // 1000000
+    mes = (data_int % 1000000) // 10000
+    ano = data_int % 10000
+
+    # Formatar a data e retornar como string
+    data_formatada = datetime(ano, mes, dia).strftime('%d/%m/%Y')
+    return data_formatada

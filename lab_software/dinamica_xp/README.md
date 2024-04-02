@@ -18,7 +18,9 @@ Gerar um relatório com a quantidade de clientes que estão devendo e quanto ele
 4. Calcular quanto cada cliente deve
 5. Combinar os dados de clientes e pagamentos
 6. Listar cada cliente que está devendo e quanto ele deve
-7. Testar se programa está funcionando corretamente
+7. Listar pagamentos já efetuados com valor e cliente que pagou.
+8. Listar pagamentos por data de pagamento, em ordem crescente.
+9. Testar se programa está funcionando corretamente
 
 ## Testes de aceitação
 
@@ -42,6 +44,8 @@ Gerar um relatório com a quantidade de clientes que estão devendo e quanto ele
 | Calcular quanto cada cliente deve    | 13     | 10 minutos     |
 | Combinar os dados de clientes e pagamentos    | 5    | 10 minutos     |
 | Listar cada cliente que está devendo e quanto ele deve    | 2     | 10 minutos     |
+| Listar pagamentos já efetuados com valor e cliente que pagou    | 2     | 10 minutos     |
+| Listar pagamentos por data de pagamento, em ordem crescente    | 13     | 10 minutos     |
 | Testar se programa está funcionando corretamente    | 20    | 10 minutos     |
 
 ## Melhorias

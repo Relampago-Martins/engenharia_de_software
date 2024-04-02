@@ -1,6 +1,7 @@
 import pandas as pd
 
-from utils import float_to_currency, int_to_date
+from utils import float_to_currency, converter_formato_data
+from front import rich_pagamentos_por_dia, rich_pagamentos_pagos, rich_devedores
 
 CLIENTES_CSV = 'assets/clientes.csv'
 PAGAMENTOS_CSV = 'assets/pagamentos.csv'
@@ -76,6 +77,13 @@ def get_pagamentos_por_dia(pagamentos_df):
     pagamentos_por_dia_list = pd.merge(devedores_list, pagadores_list, on='data', how='outer')
     pagamentos_por_dia_list.fillna(0, inplace=True)
 
+    # faz tratamento de datas e ordena
+    pagamentos_por_dia_list['data'] = pagamentos_por_dia_list['data'].apply(converter_formato_data)
+    pagamentos_por_dia_list['data'] = pd.to_datetime(
+        pagamentos_por_dia_list['data'], format='%d/%m/%Y')
+    pagamentos_por_dia_list = pagamentos_por_dia_list.sort_values(by='data')
+    pagamentos_por_dia_list['data'] = pagamentos_por_dia_list['data'].dt.strftime('%d/%m/%Y')
+
     pagamentos_por_dia_list['saldo_do_dia'] = pagamentos_por_dia_list['valor_recebido'] - \
         pagamentos_por_dia_list['valor_a_receber']
 
@@ -92,9 +100,8 @@ def listar_devedores():
                 devedor['cliente_nome'] = cliente['nome']
                 break
 
-    for devedor in devedores:
-        print(f"{devedor['cliente_nome']} deve " \
-            f"{float_to_currency(devedor['valor'])}")
+    rich_devedores(devedores)
+
 
 def listar_pagamentos_pagos():
     """
@@ -107,21 +114,15 @@ def listar_pagamentos_pagos():
                 pagamento_pago['cliente_nome'] = cliente['nome']
                 break
 
-    for pagamento_pago in pagamentos_pagos:
-        print(f"{pagamento_pago['cliente_nome']} pagou " \
-            f"{float_to_currency(pagamento_pago['valor'])}")
+    rich_pagamentos_pagos(pagamentos_pagos)
+
 
 def listar_pagamentos_por_dia():
     """
         Lista os pagamentos por dia
     """
     pagamentos_por_dia = get_pagamentos_por_dia(PAGAMENTOS_FRAME)
-
-    for pagamento in pagamentos_por_dia:
-        print(f"Data: {int_to_date(pagamento['data'])}, " \
-            f"Valor a receber: {float_to_currency(pagamento['valor_a_receber'])}, " \
-            f"Valor recebido: {float_to_currency(pagamento['valor_recebido'])}, " \
-            f"Saldo do dia: {float_to_currency(pagamento['saldo_do_dia'])}")
+    rich_pagamentos_por_dia(pagamentos_por_dia)
 
 
 if __name__ == '__main__':
