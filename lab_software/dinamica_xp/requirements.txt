@@ -6,3 +6,6 @@ six==1.16.0
 tzdata==2024.1
 IPython==8.2.0
 rich==13.7.1
+
+supabase==2.4.1
+python-environ==0.4.54

@@ -60,4 +60,10 @@ Gerar um relatório com a quantidade de clientes que estão devendo e quanto ele
 
 ## Melhorias
 
-- [X] Deixar o resultado mais bonito (usando lib `rich` -> `pip install rich`)
+- [ ] Integração com supabase
+
+- [ ] Criação de testes de conexão com banco de dados
+- [ ] Criação de testes de integração
+
+- [ ] Integração do csv para o banco de dados (comando COPY)
+- [ ] Refatorar consultas do index.py para consultar o banco de dados.
