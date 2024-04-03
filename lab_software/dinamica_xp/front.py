@@ -1,6 +1,6 @@
 from rich.console import Console
 from rich.table import Table
-
+from utils import float_to_currency
 
 def rich_pagamentos_por_dia(pagamentos_por_dia):
     """
@@ -17,9 +17,9 @@ def rich_pagamentos_por_dia(pagamentos_por_dia):
     for pag in pagamentos_por_dia:
         table.add_row(
             pag["data"],
-            f'R$ {pag["valor_a_receber"]}',
-            f'R$ {pag["valor_recebido"]}',
-            f'R$ {pag["saldo_do_dia"]}',
+            float_to_currency(pag["valor_a_receber"]),
+            float_to_currency(pag["valor_recebido"]),
+            float_to_currency(pag["saldo_do_dia"]),
         )
 
     titulo = "\n\nPagamentos por Dia"
@@ -39,7 +39,7 @@ def rich_pagamentos_pagos(pagamentos_pagos):
     for pag in pagamentos_pagos:
         table.add_row(
             pag["cliente_nome"],
-            f'R$ {pag["valor"]}',
+            float_to_currency(pag["valor"]),
         )
 
     titulo = "\n\nPagamentos Pagos"
@@ -59,7 +59,7 @@ def rich_devedores(devedores):
     for devedor in devedores:
         table.add_row(
             devedor["cliente_nome"],
-            f'R$ {devedor["valor"]}',
+           float_to_currency(devedor["valor"]),
         )
 
     titulo = "\n\nDevedores"

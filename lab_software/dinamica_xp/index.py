@@ -1,6 +1,6 @@
 import pandas as pd
 
-from utils import float_to_currency, converter_formato_data
+from utils import converter_formato_data
 from front import rich_pagamentos_por_dia, rich_pagamentos_pagos, rich_devedores
 
 CLIENTES_CSV = 'assets/clientes.csv'
