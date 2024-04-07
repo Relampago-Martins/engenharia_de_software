@@ -19,3 +19,15 @@ def converter_formato_data(data_int):
     # Formatar a data e retornar como string
     data_formatada = datetime(ano, mes, dia).strftime('%d/%m/%Y')
     return data_formatada
+
+def converter_formato_data_usa(data_int):
+    """
+        Extrair dia, mês e ano do inteiro original
+    """
+    dia = data_int // 1000000
+    mes = (data_int % 1000000) // 10000
+    ano = data_int % 10000
+
+    # Formatar a data e retornar como string
+    data_formatada = datetime(ano, mes, dia).strftime('%Y-%m-%d')
+    return data_formatada

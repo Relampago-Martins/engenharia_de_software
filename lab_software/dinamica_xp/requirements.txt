@@ -9,3 +9,4 @@ rich==13.7.1
 
 supabase==2.4.1
 python-environ==0.4.54
+psycopg2==2.9.9

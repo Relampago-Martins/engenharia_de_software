@@ -65,5 +65,5 @@ Gerar um relatório com a quantidade de clientes que estão devendo e quanto ele
 - [ ] Criação de testes de conexão com banco de dados
 - [ ] Criação de testes de integração
 
-- [ ] Integração do csv para o banco de dados (comando COPY)
-- [ ] Refatorar consultas do index.py para consultar o banco de dados.
+- [X] Integração do csv para o banco de dados (comando COPY)
+- [X] Refatorar consultas do index.py para consultar o banco de dados.
