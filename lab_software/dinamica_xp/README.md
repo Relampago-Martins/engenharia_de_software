@@ -60,9 +60,9 @@ Gerar um relatório com a quantidade de clientes que estão devendo e quanto ele
 
 ## Melhorias
 
-- [ ] Integração com supabase
+- [X] Integração com supabase
 
-- [ ] Criação de testes de conexão com banco de dados
+- [X] Criação de testes de conexão com banco de dados
 - [ ] Criação de testes de integração
 
 - [X] Integração do csv para o banco de dados (comando COPY)

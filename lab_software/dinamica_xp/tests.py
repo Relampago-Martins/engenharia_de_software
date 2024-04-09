@@ -1,6 +1,9 @@
 import unittest
 import pandas as pd
-from index import get_devedores, float_to_currency
+import psycopg2
+from index import get_devedores
+from utils import float_to_currency
+from db_manager import get_connection
 
 class TestClientesPagamentos(unittest.TestCase):
     """
@@ -79,19 +82,17 @@ class TestClientesPagamentos(unittest.TestCase):
         """ Testar se a função float_to_currency retorna o valor correto """
         self.assertEqual(float_to_currency(18.0), 'R$ 18,00')
 
-    # def test_nome_cliente_em_devedores(self):
-    #     """ Testar se o nome do cliente está presente na lista de devedores """
-    #     devedores_list, _ = get_devedores(self.pagamentos_frame, self.clientes_frame)
-    #     for devedor in devedores_list:
-    #         self.assertTrue('cliente_nome' in devedor)
+    def test_conexao_bd(self):
+        """ Testar se a conexão com o banco de dados foi realizada com sucesso """
+        try:
+            with get_connection() as conn:
+                cursor = conn.cursor()
+                cursor.execute('SELECT 1')
+                cursor.close()
 
-    # def test_valor_correto_devedores(self):
-    #     """ Testar se o valor devido pelo cliente está correto """
-    #     devedores_list, _ = get_devedores(self.pagamentos_frame, self.clientes_frame)
-    #     for devedor in devedores_list:
-    #         cliente_id = devedor['cliente_id']
-    #         valor_esperado = self.pagamentos_frame[self.pagamentos_frame['cliente_id'] == cliente_id]['valor'].sum()
-    #         self.assertEqual(devedor['valor'], valor_esperado)
+                print("Conexão com o banco de dados realizada com sucesso!")
+        except psycopg2.Error as e:
+            self.fail("Erro ao conectar ao banco de dados: " + str(e))
 
 if __name__ == '__main__':
     loader = unittest.TestLoader()
