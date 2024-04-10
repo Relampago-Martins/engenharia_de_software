@@ -5,9 +5,16 @@
 ## Como rodar o projeto
 
 ```bash
-    # windows
     python3 -m venv .venv
+    
+    # windows
     ./.venv/scripts/activate
+
+    # ubuntu
+    python3 -m venv .venv
+    source .venv/bin/activate
+    sudo apt install libpq-dev python3-dev
+
     pip install -r requirements.txt
     python index.py
 ```
@@ -67,3 +74,22 @@ Gerar um relatório com a quantidade de clientes que estão devendo e quanto ele
 
 - [X] Integração do csv para o banco de dados (comando COPY)
 - [X] Refatorar consultas do index.py para consultar o banco de dados.
+
+## Relatório de atividade
+
+PERGUNTAR E REPOSTAS DO NOTAS (NOTARI)
+Explique como foi o processo de programação
+adotado.
+TDD
+
+O ciclo de vida do TDD foi seguido?
+sim
+
+Como foi a experiência de testar antes de escrever
+o código?
+
+Foi diferente, quase como uma mudança de paradigma.
+
+O que achastes desta dinâmica?
+
+Legal, foi divertido poder testar esse processo de programação, nunca tinhamos feito testes antes.

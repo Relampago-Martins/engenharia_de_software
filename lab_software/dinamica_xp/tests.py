@@ -1,9 +1,9 @@
 import unittest
 import pandas as pd
 import psycopg2
-from index import get_devedores
 from utils import float_to_currency
-from db_manager import get_connection
+from db_manager import get_connection, InMemoryDB, get_devedores_sql, get_pagamentos_pagos_sql, \
+    get_pagamentos_por_dia_sql, get_devedores
 
 class TestClientesPagamentos(unittest.TestCase):
     """
@@ -27,6 +27,10 @@ class TestClientesPagamentos(unittest.TestCase):
             self.CLIENTES_CSV, index_col=False, sep=';', encoding='utf-8')
         self.pagamentos_frame = pd.read_csv(
             self.PAGAMENTOS_CSV, index_col=False, sep=';', encoding='utf-8')
+        self.homolog_db = InMemoryDB()
+
+    def tearDown(self):
+        self.homolog_db.close()
 
     def test_acesso_clientes_csv(self):
         """ Testar se o arquivo clientes.csv foi acessado corretamente """
@@ -71,7 +75,7 @@ class TestClientesPagamentos(unittest.TestCase):
 
     def test_retorno_get_devedores(self):
         """ Testar se a função get_devedores retorna uma lista de dicionários """
-        devedores_list = get_devedores(self.pagamentos_frame)
+        devedores_list = get_devedores()
         self.assertIsInstance(devedores_list, list, 'get_devedores não retorna uma lista')
         self.assertTrue(
             all(isinstance(devedor, dict) for devedor in devedores_list),
@@ -93,6 +97,34 @@ class TestClientesPagamentos(unittest.TestCase):
                 print("Conexão com o banco de dados realizada com sucesso!")
         except psycopg2.Error as e:
             self.fail("Erro ao conectar ao banco de dados: " + str(e))
+
+    def test_existencia_tabelas(self):
+        """ Testar se as tabelas clientes e pagamentos existem no banco de dados """
+        try:
+            with get_connection() as conn:
+                cursor = conn.cursor()
+                cursor.execute('SELECT * FROM clientes')
+                cursor.execute('SELECT * FROM pagamentos')
+                cursor.close()
+
+                print("Tabelas clientes e pagamentos existem no banco de dados!")
+        except psycopg2.Error as e:
+            if e.pgerror == 'ERROR: relation "clientes" does not exist\n':
+                self.fail("Tabela clientes não existe no banco de dados")
+            if e.pgerror == 'ERROR: relation "pagamentos" does not exist\n':
+                self.fail("Tabela pagamentos não existe no banco de dados")
+
+    def test_get_devedores(self):
+        """ Testar se a função get_devedores consulta os dados corretamente """
+        rows = self.homolog_db.execute_query(get_devedores_sql())
+        self.assertTrue(len(rows) > 0, 'Tabela clientes está vazia')
+
+        rows = self.homolog_db.execute_query(get_pagamentos_pagos_sql())
+        self.assertTrue(len(rows) > 0, 'Tabela pagamentos está vazia')
+
+        rows = self.homolog_db.execute_query(get_pagamentos_por_dia_sql())
+        self.assertTrue(len(rows) > 0, 'Tabela pagamentos está vazia')
+
 
 if __name__ == '__main__':
     loader = unittest.TestLoader()
