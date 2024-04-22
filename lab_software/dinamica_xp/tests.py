@@ -108,7 +108,7 @@ class TestClientesPagamentos(unittest.TestCase):
                 cursor.close()
 
                 print("Tabelas clientes e pagamentos existem no banco de dados!")
-        except psycopg2.Error as e:
+        except psycopg2.errors.UndefinedTable as e:
             if e.pgerror == 'ERROR: relation "clientes" does not exist\n':
                 self.fail("Tabela clientes não existe no banco de dados")
             if e.pgerror == 'ERROR: relation "pagamentos" does not exist\n':

@@ -1,48 +1,80 @@
-from behave import given, when, then, use_step_matcher
+import behave
+import db_manager
+import psycopg2
 
-
-@given('Dado que o sistema está inicializado')
+@behave.given('Dado que o sistema está inicializado')
 def initialize(context):
     """
     Inicializa o sistema
     """
-    pass
 
-@given(u'o banco de dados está conectado')
+@behave.given('o banco de dados está conectado')
 def test_conn(context):
     """
     Testa a conexão com o banco de dados
     """
-    pass
+    with db_manager.get_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute('SELECT 1')
 
-@given(u'as tabelas de clientes e pagamentos existem')
+        if cursor.fetchone() is None:
+            raise psycopg2.DatabaseError("Erro ao conectar ao banco de dados")
+        cursor.close()
+
+        print("Conexão com o banco de dados realizada com sucesso!")
+
+
+@behave.given('as tabelas de clientes e pagamentos existem')
 def tables_exists(context):
     """
     Verifica se as tabelas de clientes e pagamentos existem
     """
-    pass
+    try:
+        with db_manager.get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute('SELECT * FROM cliente')
+            cursor.execute('SELECT * FROM pagamento')
+            cursor.close()
 
-@given(u'as tabelas não estão vazias')
+            print("Tabelas clientes e pagamentos existem no banco de dados!")
+    except psycopg2.errors.UndefinedTable:
+        raise psycopg2.errors.UndefinedTable("Tabelas clientes ou pagamentos não existem no banco de dados")
+
+@behave.given('as tabelas não estão vazias')
 def not_empty(context):
-    pass
+    """
+    Verifica se as tabelas de clientes e pagamentos não estão vazias
+    """
+    with db_manager.get_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute('SELECT * FROM cliente')
+        if cursor.fetchone() is None:
+            raise psycopg2.DataError("Tabela clientes está vazia")
+        cursor.execute('SELECT * FROM pagamento')
+        if cursor.fetchone() is None:
+            raise psycopg2.DataError("Tabela pagamentos está vazia")
+        cursor.close()
 
-@when(u'Quando eu abrir a interface do sistema')
+@behave.when('Quando eu abrir a interface do sistema')
 def open_interface(context):
     assert True is not False
 
-
-@then(u'Então devo ver a tela principal do sistema')
+@behave.then('Então devo ver a tela principal do sistema')
 def is_open(context):
     assert context.failed is False
 
-@given(u'Dado que tenho clientes que estão devendo,')
+@behave.given('Dado que tenho clientes que estão devendo,')
 def existem_devedores(context):
-    pass
+    """
+    Verifica se existem clientes que estão devendo
+    """
+    devedores = db_manager.get_devedores()
+    assert devedores is not None
 
-@when(u'Quando eu escolher na interface listar devedores')
+@behave.when('Quando eu escolher na interface listar devedores')
 def listar_devedores(context):
     assert True is not False
 
-@then(u'Então devo ver uma tabela com os nomes dos clientes e o valor que eles devem')
+@behave.then('Então devo ver uma tabela com os nomes dos clientes e o valor que eles devem')
 def tabela_devedores(context):
     assert context.failed is False
