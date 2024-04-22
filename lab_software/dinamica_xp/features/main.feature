@@ -1,4 +1,4 @@
-Feature: Relatório de Inadimplência
+Feature: Relatório de Inadimplência (BDD)
   Eu como gerente de uma loja
   Quero gerar um relatório de inadimplência
   Para saber quem são os clientes que estão devendo e quanto eles devem

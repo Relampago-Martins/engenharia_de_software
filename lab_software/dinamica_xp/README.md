@@ -21,7 +21,7 @@
     #Rodar testes1
     python test.py
 
-    #Rodar testes2
+    #Rodar testes do método BDD
     behave
 ```
 
