@@ -17,6 +17,12 @@
 
     pip install -r requirements.txt
     python index.py
+
+    #Rodar testes1
+    python test.py
+
+    #Rodar testes2
+    behave
 ```
 
 ## Escopo do problema
