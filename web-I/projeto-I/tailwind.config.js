@@ -33,7 +33,7 @@ module.exports = {
           foreground: "hsl(var(--destructive-foreground))",
         },
         muted: {
-          DEFAULT: "hsl(var(--muted))",
+          DEFAULT: "var(--muted)",
           foreground: "hsl(var(--muted-foreground))",
         },
         accent: {
@@ -68,6 +68,9 @@ module.exports = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
+      backgroundImage:{
+        'header-gradient': 'linear-gradient(45deg, rgba(39, 35, 151, 1) 12%, rgba(55, 50, 179, 1) 31%, rgba(39, 35, 151, 1) 90%)'
+      }
     },
   },
   plugins: [require("tailwindcss-animate")],
