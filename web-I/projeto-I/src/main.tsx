@@ -1,7 +1,9 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import "./globals.css";
 import "./index.css";
+
 import MyPodPage from "./pages/aula/inicio.tsx";
 import { IpodPage } from "./pages/aula/ipod.tsx";
 import { HackerNewsPage } from "./pages/hacker-news/inicio.tsx";

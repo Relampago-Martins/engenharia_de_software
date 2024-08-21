@@ -1,10 +1,10 @@
-import appleStore from "../../assets/applestore.jpg";
-import britain from "../../assets/britain.jpg";
-import myPodLogo from "../../assets/mypod.gif";
-import downtown from "../../assets/seattle_downtown.jpg";
-import med from "../../assets/seattle_med.jpg";
-import shuffle from "../../assets/seattle_shuffle.jpg";
-import { ClickImage } from "../../entities/click-imagem";
+import appleStore from "@/assets/applestore.jpg";
+import britain from "@/assets/britain.jpg";
+import myPodLogo from "@/assets/mypod.gif";
+import downtown from "@/assets/seattle_downtown.jpg";
+import med from "@/assets/seattle_med.jpg";
+import shuffle from "@/assets/seattle_shuffle.jpg";
+import { ClickImage } from "@/shared/ui/click-imagem";
 
 function MyPodPage() {
   return (
