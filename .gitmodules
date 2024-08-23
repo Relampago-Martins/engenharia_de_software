@@ -1,0 +1,3 @@
+[submodule "lab_software/projac_web"]
+	path = lab_software/projac_web
+	url = https://github.com/Projetos-Faculdade-UCS/projac_web.git
