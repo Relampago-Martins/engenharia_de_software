@@ -3,7 +3,10 @@ export type Noticia = {
     urlCapa: string;
     titulo: string;
     dataPublicacao: date;
-
+    tag: string;
+    resumo: string;
+    autor: string;
 }
 
-export type NoticiaPreview = Pick<Noticia, 'slug' | 'urlCapa' | 'titulo'>;
+export type NoticiaPreview = Pick<Noticia, 
+    'slug' | 'urlCapa' | 'titulo' | 'dataPublicacao' | 'tag' | 'resumo'>;
