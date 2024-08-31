@@ -6,7 +6,8 @@ import "./index.css";
 
 import MyPodPage from "./pages/aula/inicio.tsx";
 import { IpodPage } from "./pages/aula/ipod.tsx";
-import { HackerNewsPage } from "./pages/hacker-news/inicio.tsx";
+import { NoticiaDetailPage } from "./pages/hacker-news/[slug]/page.tsx";
+import { HackerNewsPage } from "./pages/hacker-news/page.tsx";
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <HackerNewsPage />,
+  },
+  {
+    path: "/noticia/:slug",
+    element: <NoticiaDetailPage />,
   },
 ]);
 createRoot(document.getElementById("root")!).render(

@@ -10,9 +10,7 @@ export function TopArea() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   return (
     <>
-      <div className="bg-header-gradient w-100">
-        <Cabecalho />
-      </div>
+      <Cabecalho />
       <NavBar className="flex">
         <div className="flex items-center mr-auto">
           <NavBarLink href="#home">Home</NavBarLink>
