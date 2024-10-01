@@ -8,4 +8,7 @@ Instalar previamente o gcc, se for windows instalar por meio do MinGW.
 
 ```shell
 gcc -m32 -O3 -S -masm=intel nome_do_arquivo.c -o nome_do_arquivo.s
+
+#variante
+gcc -m32 -O3 -S -fverbose-asm -masm=intel -g somvet.c -o somvet_gerado.asm 
 ```
