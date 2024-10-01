@@ -6,9 +6,7 @@ O seguinte projeto tem como objetivo comporar um codigo assembly nativo e um cod
 
 Instalar previamente o gcc, se for windows instalar por meio do MinGW.
 
+Rodar o comando que gera assembly em release sem otimizações para intel 32bits
 ```shell
-gcc -m32 -O3 -S -masm=intel nome_do_arquivo.c -o nome_do_arquivo.s
-
-#variante
-gcc -m32 -O3 -S -fverbose-asm -masm=intel -g somvet.c -o somvet_gerado.asm 
+gcc -m32 -O0 -fno-builtin -S -masm=intel -fverbose-asm somvet.c -o somvet.asm
 ```
