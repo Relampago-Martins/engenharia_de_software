@@ -2,7 +2,7 @@
 .custom-loader {
 width: 70px;
 height: 70px;
-background: #ffa600;
+background: #ea580c;
 border-radius: 50px;
 -webkit-mask: radial-gradient(circle 31px at 50% calc(100% + 13px),#000 95%,#0000) top 4px left 50%,
     radial-gradient(circle 31px,#000 95%,#0000) center,
@@ -13,6 +13,22 @@ mask-composite: exclude;
 -webkit-mask-repeat: no-repeat;
 animation: cu10 1.5s infinite;
 }
+
+.small-loader {
+width: 30px;
+height: 30px;
+background: #ea580c;
+border-radius: 50px;
+-webkit-mask: radial-gradient(circle 14px at 50% calc(100% + 6px),#000 95%,#0000) top 2px left 50%,
+    radial-gradient(circle 14px,#000 95%,#0000) center,
+    radial-gradient(circle 14px at 50% -6px,#000 95%,#0000) bottom 2px left 50%,
+    linear-gradient(#000 0 0);
+-webkit-mask-composite: xor;
+mask-composite: exclude;
+-webkit-mask-repeat: no-repeat;
+animation: cu10Small 1.5s infinite;
+}
+
 
 @keyframes cu10 {
 0% {
@@ -41,5 +57,29 @@ animation: cu10 1.5s infinite;
 
 100% {
     -webkit-mask-size: 0    18px,0    18px,0    18px,auto
+}
+}
+
+@keyframes cu10Small {
+0% {
+    -webkit-mask-size: 0    8px,0    8px,0    8px,auto
+}
+16.67% {
+    -webkit-mask-size: 100% 8px,0    8px,0    8px,auto
+}
+33.33% {
+    -webkit-mask-size: 100% 8px,100% 8px,0    8px,auto
+}
+50% {
+    -webkit-mask-size: 100% 8px,100% 8px,100% 8px,auto
+}
+66.67% {
+    -webkit-mask-size: 0    8px,100% 8px,100% 8px,auto
+}
+83.33% {
+    -webkit-mask-size: 0    8px,0    8px,100% 8px,auto
+}
+100% {
+    -webkit-mask-size: 0    8px,0    8px,0    8px,auto
 }
 }

@@ -16,32 +16,13 @@ function loadPosts() {
         dataType: 'json',
         url: 'https://jsonplaceholder.typicode.com/posts',
         success: function(data) {
-            $('#loader').hide();
+            $('#loader-template').hide();
             //percorre todos os posts
             $.each(data, function(index, post) {
                 addPost(post);               
             });
         },
     });
-}
-
-/** 
- * Responsável por adicionar loader enquanto os comentários são carregados.
- */
-function showCommentLoader(PostId){
-    const commentsLoader = $('#posts-loader').clone();
-    commentsLoader.removeAttr('id');
-    commentsLoader.show();
-    commentsLoader.attr('id', `comments-loader-${PostId}`);
-    commentsLoader.appendTo(`#comments-${PostId}`);
-}
-
-/**
- * Responsável por remover o loader dos comentários.
- */
-function removeCommentLoader(PostId){
-    //remove from the DOM
-    $(`#comments-loader-${PostId}`).remove();
 }
 
 /**
@@ -70,23 +51,26 @@ function addPost(post) {
 */
 function loadComments(buttonShowComments) {
     const postId = $(buttonShowComments).parent().attr('id').split('-')[1];
+
+    $(`#comments-trigger-${postId}`).hide();
     showCommentLoader(postId);
+    
     setTimeout(function() {
-        $.ajax({
-            type: 'GET',
-            dataType: 'json',
-            url: `https://jsonplaceholder.typicode.com/posts/${postId}/comments`,
-            success: function(data) {
+        fetch(`https://jsonplaceholder.typicode.com/posts/${postId}/comments`, { method: 'GET' })
+            .then(response => response.json())
+            .then(data => {
                 removeCommentLoader(postId);
-                //adiciona css para esconder o botão de mostrar comentários
-                $(`#comments-trigger-${postId}`).hide();
                 $(`#comments-${postId}`).show();
+
                 //percorre todos os comentários
                 $.each(data, function(index, comment) {
                     addComment(postId, comment);
                 });
-            },
-        });
+            })
+            .catch(error => {
+                alert('Erro ao carregar os comentários');
+            }
+        );
     }, TIME_OUT);
 }
 
@@ -96,7 +80,8 @@ function loadComments(buttonShowComments) {
  */
 function loadAllComments(trigger) {
     $('.comments-trigger').each(function(index, buttonShowComments) {
-        loadComments(buttonShowComments);
+        if ($(buttonShowComments).is(':visible'))
+            loadComments(buttonShowComments);
     });
     $(trigger).hide();
 }
@@ -119,3 +104,25 @@ function addComment(postId, comment) {
     commentCard.appendTo(`#comments-${postId}`);
 }
 
+/** 
+ * Responsável por adicionar loader enquanto os comentários são carregados.
+ */
+function showCommentLoader(PostId){
+    const commentsLoader = $('#loader-template').clone();
+    commentsLoader.removeAttr('id');
+    commentsLoader.show();
+    commentsLoader.attr('id', `comments-loader-${PostId}`);
+    commentsLoader.find('.loader-text').text('Carregando comentários...');
+    commentsLoader.find('.custom-loader').addClass('small-loader');
+    commentsLoader.removeClass('h-[80vh]');
+    commentsLoader.addClass('h-full');
+    commentsLoader.appendTo(`#post-${PostId}`);
+}
+
+/**
+ * Responsável por remover o loader dos comentários.
+ */
+function removeCommentLoader(PostId){
+    //remove from the DOM
+    $(`#comments-loader-${PostId}`).remove();
+}
