@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script
+        src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+        crossorigin="anonymous"></script>
+    <link 
+        rel="stylesheet" 
+        href="css/loader.css">
+    <title>Posts</title>
+</head>
+<body class="bg-yellow-100 px-12 py-4">
+    <h1 class="text-3xl mb-4">
+        Posts
+    </h1>
+    <Button
+        onclick="loadAllComments(this)"
+        class="text-white bg-orange-600 px-2 py-1 mb-4 rounded"
+    >
+        Ver todos comentártios
+    </Button>
+
+    <div id="posts" class="flex flex-wrap justify-between gap-8">
+
+        <div id="loader" class="w-full h-[80vh] flex flex-col gap-3 justify-center items-center">
+            <div class="custom-loader"></div>
+            <p class="text-gray-600">
+                Carregando posts...
+            </p>
+        </div>
+        <div 
+            id="post-template"
+            style="display: none;"
+            class="bg-white w-[370px] px-4 py-2 rounded shadow-sm
+            border-[1px] border-orange-600 flex flex-col gap-6">
+            <div class="flex flex-col gap-4">
+                <h2 class="card-title text-xl font-bold">
+                </h2>
+                <p class="card-text text-gray-600">
+                </p>
+            </div>
+            <button 
+                onclick="loadComments(this)"
+                class="comments-trigger text-white bg-orange-600 px-2 py-1 rounded">
+                Ver comentários
+            </button>
+            <div 
+                class="comments-section flex flex-col gap-2"
+                style="display: none;"    
+            >
+                <h3 class="text-lg font-semibold text-gray-600">
+                    Comentários
+                </h3>
+            </div>
+        </div>
+        <div 
+            id="comment-template"
+            style="display: none;"
+            class="px-4 py-2 border-l-[2px] border-orange-600 bg-orange-100"
+        >
+        </div>
+    </div>
+    <script src="js/posts.js"></script>
+</body>
+</html>
