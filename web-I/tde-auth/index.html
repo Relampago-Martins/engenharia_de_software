@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script
+        src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+        crossorigin="anonymous"></script>
+    <title>Estudo de Autenticação</title>
+</head>
+<body class="px-12 py-8 flex flex-col gap-4 bg-gray-100">
+    <div class="border-2 border-gray-300 rounded-md shadow flex flex-col gap-2 bg-white px-4 py-2 ">
+        <h1 class="text-2xl font-semibold">CadastrarCliente</h1>
+        <div>
+        
+        </div>
+        <span class="text-xl font-medium">Formulário</span>
+        <form 
+            onsubmit="postCliente(event)"
+            class="flex flex-col gap-2">
+            <div class="flex items-center gap-8">
+                <div class="flex flex-col gap-1">
+                    <label for="nome">Nome</label>
+                    <input
+                        name="nome"
+                        type="text"
+                        required
+                        class="border-2 border-gray-300 rounded">
+                </div>
+                <div class="flex flex-col gap-1">
+                    <label for="telefone">Telefone</label>
+                    <input 
+                        required
+                        name="telefone"
+                        type="tel"
+                        class="border-2 border-gray-300 rounded">
+                </div>
+            </div>
+            <div>
+            <button 
+                type="submit"
+                class="flex px-2 py-1 text-blue-700 border-2 border-blue-700 rounded">
+                Executar
+            </button>
+            </div>
+        </form>
+    </div>
+    <div class="border-2 border-gray-300 rounded-md shadow flex flex-col gap-2 bg-white px-4 py-2 ">
+        <h1 class="text-2xl font-semibold">BuscarClientesPOST</h1>
+        <div>
+            <button 
+                onclick="getClientes()"
+                class="flex px-2 py-1 text-blue-700 border-2 border-blue-700 rounded">
+                Executar
+            </button>
+        </div>
+        <span>Retorno</span>
+        <textarea
+            id="clientes1"
+            class="border-2 border-gray-300 rounded shadow"
+            name="retorno"
+            rows="10"></textarea>
+    </div>
+    <div class="border-2 border-gray-300 rounded-md shadow flex flex-col gap-2 bg-white px-4 py-2 ">
+        <h1 class="text-2xl font-semibold">BuscarClientesAutenticado</h1>
+        <div>
+            <button 
+                onclick="getClientesAuth()"
+                class="flex px-2 py-1 text-blue-700 border-2 border-blue-700 rounded">
+                Executar
+            </button>
+        </div>
+        <span>Retorno</span>
+        <textarea
+            id="clientes2"
+            class="border-2 border-gray-300 rounded shadow"
+            name="retorno"
+            rows="10"></textarea>
+    </div>
+    <div class="border-2 border-gray-300 rounded-md shadow flex flex-col gap-2 bg-white px-4 py-2 ">
+        <h1 class="text-2xl font-semibold">BuscarClientesAutenticadoHeader</h1>
+        <div>
+            <button 
+                onclick="getClientesAuthHeader()"
+                class="flex px-2 py-1 text-blue-700 border-2 border-blue-700 rounded">
+                Executar
+            </button>
+        </div>
+        <span>Retorno</span>
+        <textarea
+            id="clientes3"
+            class="border-2 border-gray-300 rounded shadow"
+            name="retorno"
+            rows="10"></textarea>
+    </div>
+</body>
+<script>
+    const API_KEY = '8175f301022f475daa5e6098c532a2aa';
+    var token = undefined;
+    var tokenHeader = undefined;
+    $(window).ready(function() {
+        $.ajax({
+            url: `https://ucsweb1.azurewebsites.net/API/Autenticar?chaveAPI=${API_KEY}`,
+            type: 'POST',
+            success: function (data) {
+                token = data;
+            }
+        });
+        $.ajax({
+            url: 'https://ucsweb1.azurewebsites.net/API/AutenticarHeader',
+            type: 'POST',
+            headers: {
+                'api_key': API_KEY,
+            },
+            success: function (data) {
+                tokenHeader = data;
+            }
+        });
+    });
+
+    function getClientes() {
+        $.ajax({
+            url: 'https://ucsweb1.azurewebsites.net/API/BuscarClientesPOST',
+            type: 'POST',
+            headers: {
+                'api_key': 'ed4a8ae4-d7d7-4427-b925-e2408287a270'
+            },
+            success: function (data) {
+                $('#clientes1').val(JSON.stringify(data));
+            }
+        });
+    }
+    async function getClientesAuth(){
+        $.ajax({
+            url: `https://ucsweb1.azurewebsites.net/API/BuscarClientesAutenticado?auth=${token}`,
+            type: 'POST',
+            success: function (data) {
+                $('#clientes2').val(JSON.stringify(data));
+            },
+        });
+    }
+    async function getClientesAuthHeader(){
+        $.ajax({
+            url: 'https://ucsweb1.azurewebsites.net/API/BuscarClientesAutenticadoHeader',
+            type: 'POST',
+            headers: {
+                'authUCSJWT': tokenHeader,
+            },
+            success: function (data) {
+                $('#clientes3').val(JSON.stringify(data));
+            }
+        });
+    }
+    async function postCliente(e){
+        e.preventDefault();
+        const telefone = $('input[name="telefone"]').val();
+        const nome = $('input[name="nome"]').val();
+        $.ajax({
+            url: 'https://ucsweb1.azurewebsites.net/API/CadastrarCliente',
+            type: 'POST',
+            data: {
+                Telefone: telefone,
+                Nome: nome,
+            },
+            headers: {
+                'authUCSJWT': tokenHeader,
+            },
+            success: function (data) {
+                alert('Cliente cadastrado com sucesso', data);
+            }
+        });
+    }
+
+</script>
+</html>
