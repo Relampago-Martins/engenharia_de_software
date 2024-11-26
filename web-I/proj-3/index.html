@@ -11,19 +11,21 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <title>Discos</title>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/ldrs/dist/auto/waveform.js"></script>
 </head>
 <body class="px-4 md:px-12 bg-gray-200 min-h-screen">
     <!-- Modal -->
     <div class="modal fade" id="modalDisco" tabindex="-1" aria-labelledby="modalDiscoLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header">
-            <h1 class="modal-title text-xl font-semibold" id="modalDiscoLabel">
-                Disco
-            </h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="flex justify-between items-center p-3">
+                <h1 class="modal-title text-xl font-semibold bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent" id="modalDiscoLabel">
+                    Disco
+                </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body flex flex-col gap-4">
+            <div class="modal-body flex flex-col gap-4 pt-0">
+                <img class="w-full object-contain rounded-sm" alt="Disco" />
                 <flex class="flex flex-col gap-1">
                     <span class="text-sm text-gray-600">
                         Descrição 1:
@@ -46,19 +48,29 @@
     </div>
     <!-- Conteúdo -->
     <div class="bg-white border-x-[1px] border-gray-300 w-full h-full shadow-md">
-        <header class="flex items-center p-4 sm:px-12 border-b-[1px] border-gray-300">
+        <header class="flex items-center px-4 py-3 sm:px-12 border-b-[1px] border-gray-300 shadow-sm mb-4">
             <h1 class="text-3xl font-bold bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">
                 Discos
             </h1>
         </header>
-        <div id="listaDiscos" class="px-4 sm:px-12 py-4 grid md:grid-cols-2 gap-4">
+        <div id="listaDiscos" class="px-4 sm:px-12 grid pb-4 md:grid-cols-4 gap-4">
+        </div>
+        <div class="flex items-center justify-center pb-4">
+            <l-waveform
+            size="35"
+            stroke="3.5"
+            speed="1"
+            color="rgba(59, 130, 246, 1)"
+            ></l-waveform>
         </div>
     </div>
-    <input type="hidden" id="numeroInicio" value="1">
-    <button id="templateCardDisco" class="hidden col-span-1"
+    <button id="templateCardDisco" class="hidden col-span-1 overflow-hidden rounded-lg relative border-[1px] border-gray-300
+        hover:scale-[1.03] transition-transform duration-300 ease-in-out hover:shadow-xl"
         data-bs-toggle="modal" data-bs-target="#modalDisco"
     >
-        <img class="w-full object-cover aspect-square rounded-lg hover:scale-105 transition-transform duration-300 ease-in-out shadow-sm hover:shadow-lg"/>
+        <img class="w-full object-cover aspect-square hover:scale-105 transition-transform duration-300 ease-in-out
+        "/>
+
     </button>
 </body>
 <script src="js/discos-data.js"></script>
@@ -72,19 +84,26 @@
         const discosData = DiscosData.getInstance();
 
         const discos = await getDiscos(token);
-        renderDiscos(discos, (discoId)=>{
-            discosData.setDiscoAtivoId(discoId);
-        });
+        renderDiscos(discos);
         discosData.incNumeroInicio(12);
-        setInfinityScroll(token)
+        setInfinityScroll(token);
 
         const myModalEl = document.getElementById('modalDisco')
-        myModalEl.addEventListener('shown.bs.modal', async (event) => {
-            const disco = await getDisco(token, DiscosData.getInstance().getDiscoAtivoId());
-            
-            $('#modalDiscoLabel').text(`Disco #${disco.id}`);
-            $('#descricaoPrimaria').text(disco.descricaoPrimaria);
-            $('#descricaoSecundaria').text(disco.descricaoSecundaria);
+        myModalEl.addEventListener('show.bs.modal', async (event) => {
+            try{
+                const disco = await getDisco(token,
+                    $(event.relatedTarget).attr('id')
+                );
+                $('#modalDisco').find('img').attr('src', `data:image/png;base64,${disco.imagemEmBase64}`);
+                $('#modalDiscoLabel').text(`Disco #${disco.id}`);
+                $('#modalDisco').find('.modal-body').removeClass('hidden');
+                $('#descricaoPrimaria').text(disco.descricaoPrimaria);
+                $('#descricaoSecundaria').text(disco.descricaoSecundaria);
+            }catch(e){
+                $('#modalDiscoLabel').text(`Erro ao carregar disco #${$(event.relatedTarget).attr('id')}`);
+                $('#modalDisco').find('.modal-body').addClass('hidden');
+
+            }
         })
     });
     

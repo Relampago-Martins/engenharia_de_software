@@ -30,7 +30,7 @@ async function getDisco(token, id){
     return resp.json();
 }
 
-function renderDiscos(discos, onClick = undefined){
+function renderDiscos(discos){
     discos.forEach(disco => {
         let cardDisco = $('#templateCardDisco').clone();
 
@@ -39,9 +39,6 @@ function renderDiscos(discos, onClick = undefined){
         cardDisco.children('img').attr(
             'src', `data:image/png;base64,${disco.imagemEmBase64}`
         );
-        cardDisco.on('click', ()=>{
-            onClick?.(disco.id);
-        });
         $('#listaDiscos').append(cardDisco);
     });
 }
@@ -61,9 +58,7 @@ function setInfinityScroll(token){
                 4,
                 (discosData.getNumeroInicio() % maximoRegistros) || 1,
             );
-            renderDiscos(discos, (discoId)=>{
-                discosData.setDiscoAtivoId(discoId);
-            });
+            renderDiscos(discos);
             discosData.incNumeroInicio(4);
         }
     });
