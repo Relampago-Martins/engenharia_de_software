@@ -19,11 +19,8 @@
         </header>
         <div id="listaDiscos" class="px-4 sm:px-12 py-4 grid grid-cols-3 gap-4">
         </div>
-        <span
-            data-state="inative"
-            id="triggerLoading"
-        ></span>
     </div>
+    <input type="hidden" id="numeroInicio" value="1">
     <button id="templateCardDisco" class="hidden col-span-1 hover:scale-105 transition-transform duration-300 ease-in-out shadow-sm hover:shadow-lg">
         <img class="object-cover aspect-square rounded-lg "/>
     </button>
@@ -32,30 +29,25 @@
 <script>
     const chaveAPI = '8175fA5f6098c5301022f475da32a2aa';
     let token = '';
-    const discosData = DiscosData.getInstance();
-
 
     $(document).ready(async function(){
         token = await getToken();
         discos = await getDiscos();
+        numeroInicio = parseInt($('#numeroInicio').val()) + 12;
+        
         renderDiscos(discos);
-  
 
-        // Intersection Observer to trigger fetch when #triggerLoading enters the viewport
-        const observer = new IntersectionObserver(async (entries) => {
-            entries.forEach(async (entry) => {
-                if (entry.isIntersecting) {
-                    if ($('#triggerLoading').data('state') === 'loading') return;
-                    const nextDiscos = await getDiscos(4, discosData.numeroInicio); // Fetch the next set of discos
-                    renderDiscos(nextDiscos);
-                }
-            });
+        //every time the user scroll is at the bottom of the page, load more discos
+        $(window).scroll(async function(){
+            if($(window).scrollTop() + $(window).height() == $(document).height()){
+                discos = await getDiscos(
+                    4,
+                    $('#numeroInicio').val()
+                );
+                renderDiscos(discos);
+                numeroInicio = parseInt($('#numeroInicio').val()) + 4;
+            }
         });
-
-        const triggerLoading = document.getElementById('triggerLoading');
-        if (triggerLoading) {
-            observer.observe(triggerLoading);
-        }
     });
 
     async function getToken(){
@@ -69,7 +61,6 @@
         return resp.text();
     }
     async function getDiscos(quantidade = 12, numeroInicio = 1){
-        $('#triggerLoading').data('state', 'loading');
         resp = await fetch(`https://ucsdiscosapi.azurewebsites.net/Discos/records?numeroInicio=${1}&quantidade=${quantidade}`, {
             method: 'GET',
             headers: {
@@ -77,8 +68,6 @@
                 TokenApiUCS: token
             },
         })
-        $('#triggerLoading').data('state', 'inative');
-        discosData.setNumeroInicio(discosData.numeroInicio + quantidade);
         return resp.json();
     }
     function renderDiscos(discos){
