@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script
+        src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+        crossorigin="anonymous"></script>
+    <title>Discos</title>
+</head>
+<body class="px-4 md:px-12 bg-gray-200 min-h-screen">
+    <div class="bg-white border-x-[1px] border-gray-300 w-full h-full shadow-md">
+        <header class="flex items-center p-4 sm:px-12 border-b-[1px] border-gray-300">
+            <h1 class="text-3xl font-bold bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">
+                Discos
+            </h1>
+        </header>
+        <div id="listaDiscos" class="px-4 sm:px-12 py-4 grid grid-cols-3 gap-4">
+        </div>
+        <span
+            data-state="inative"
+            id="triggerLoading"
+        ></span>
+    </div>
+    <button id="templateCardDisco" class="hidden col-span-1 hover:scale-105 transition-transform duration-300 ease-in-out shadow-sm hover:shadow-lg">
+        <img class="object-cover aspect-square rounded-lg "/>
+    </button>
+</body>
+<script src="discos-data.js"></script>
+<script>
+    const chaveAPI = '8175fA5f6098c5301022f475da32a2aa';
+    let token = '';
+    const discosData = DiscosData.getInstance();
+
+
+    $(document).ready(async function(){
+        token = await getToken();
+        discos = await getDiscos();
+        renderDiscos(discos);
+  
+
+        // Intersection Observer to trigger fetch when #triggerLoading enters the viewport
+        const observer = new IntersectionObserver(async (entries) => {
+            entries.forEach(async (entry) => {
+                if (entry.isIntersecting) {
+                    if ($('#triggerLoading').data('state') === 'loading') return;
+                    const nextDiscos = await getDiscos(4, discosData.numeroInicio); // Fetch the next set of discos
+                    renderDiscos(nextDiscos);
+                }
+            });
+        });
+
+        const triggerLoading = document.getElementById('triggerLoading');
+        if (triggerLoading) {
+            observer.observe(triggerLoading);
+        }
+    });
+
+    async function getToken(){
+        resp = await fetch(`https://ucsdiscosapi.azurewebsites.net/Discos/autenticar`, {
+            method: 'POST',
+            headers: {
+                'accept': '*/*',
+                ChaveApi: chaveAPI
+            },
+        })
+        return resp.text();
+    }
+    async function getDiscos(quantidade = 12, numeroInicio = 1){
+        $('#triggerLoading').data('state', 'loading');
+        resp = await fetch(`https://ucsdiscosapi.azurewebsites.net/Discos/records?numeroInicio=${1}&quantidade=${quantidade}`, {
+            method: 'GET',
+            headers: {
+                'accept': '*/*',
+                TokenApiUCS: token
+            },
+        })
+        $('#triggerLoading').data('state', 'inative');
+        discosData.setNumeroInicio(discosData.numeroInicio + quantidade);
+        return resp.json();
+    }
+    function renderDiscos(discos){
+        discos.forEach(disco => {
+            let cardDisco = $('#templateCardDisco').clone();
+
+            cardDisco.attr('id', '');
+            cardDisco.removeClass('hidden');
+            cardDisco.children('img').attr(
+                'src', `data:image/png;base64,${disco.imagemEmBase64}`
+            );
+
+            $('#listaDiscos').append(cardDisco);
+        });
+    }
+
+
+</script>
+</html>
