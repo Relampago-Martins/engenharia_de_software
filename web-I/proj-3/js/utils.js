@@ -49,14 +49,21 @@ function renderDiscos(discos){
  */
 function setInfinityScroll(token){
     const discosData = DiscosData.getInstance();
-    const maximoRegistros = 104;
+    const maximoRegistros = 105;
     
     $(window).scroll(async function(){
+        const numeroInicio = (discosData.getNumeroInicio() % (maximoRegistros + 1)) || 1
+        let quantidade = 4;
+        
+        console.log('numeroInicio + quantidade', numeroInicio + quantidade);
+        if (numeroInicio + quantidade > maximoRegistros){
+            quantidade = maximoRegistros - ( numeroInicio - 1 );
+        }
         if($(window).scrollTop() + $(window).height() == $(document).height()){
             const discos = await getDiscos(
                 token,
-                4,
-                (discosData.getNumeroInicio() % maximoRegistros) || 1,
+                quantidade,
+                numeroInicio,
             );
             renderDiscos(discos);
             discosData.incNumeroInicio(4);
