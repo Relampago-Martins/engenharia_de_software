@@ -3,6 +3,8 @@
 # Define the web directory as a variable
 WEB_DIR="/var/www/html"
 FILE_NAME="index.php"
+DIR_MODE=false
+DIR_PATH=""
 
 # Parse command line arguments
 while [[ $# -gt 0 ]]; do
@@ -11,9 +13,14 @@ while [[ $# -gt 0 ]]; do
             FILE_NAME="$2"
             shift 2
             ;;
+        -d|--dir)
+            DIR_MODE=true
+            DIR_PATH="$2"
+            shift 2
+            ;;
         *)
             echo "Unknown option: $1"
-            echo "Usage: $0 [-f|--file filename]"
+            echo "Usage: $0 [-f|--file filename] [-d|--dir directory]"
             exit 1
             ;;
     esac
@@ -28,14 +35,30 @@ else
     sudo systemctl enable apache2
 fi
 
-# Check if specified file exists in the current directory
-if [ -f "./$FILE_NAME" ]; then
-    echo "Updating $WEB_DIR/$FILE_NAME with the contents of ./$FILE_NAME"
-    sudo cp "./$FILE_NAME" "$WEB_DIR/$FILE_NAME"
-    sudo chown www-data:www-data "$WEB_DIR/$FILE_NAME"
-    sudo chmod 644 "$WEB_DIR/$FILE_NAME"
-    echo "Update complete."
-else
-    echo "Error: ./$FILE_NAME not found. Please make sure the file exists."
-    exit 1
+# Handle file mode
+if [ "$DIR_MODE" = false ]; then
+    # Check if specified file exists in the current directory
+    if [ -f "./$FILE_NAME" ]; then
+        echo "Updating $WEB_DIR/$FILE_NAME with the contents of ./$FILE_NAME"
+        sudo cp "./$FILE_NAME" "$WEB_DIR"
+        sudo chown -R www-data:www-data "$WEB_DIR"
+        echo "Update complete."
+    else
+        echo "Error: ./$FILE_NAME not found. Please make sure the file exists."
+        exit 1
+    fi
+fi
+
+# Handle directory mode
+if [ "$DIR_MODE" = true ]; then
+    # Check if specified directory exists
+    if [ -d "$DIR_PATH" ]; then
+        echo "Copying all files from $DIR_PATH to $WEB_DIR"
+        sudo cp -r "$DIR_PATH"/* "$WEB_DIR"
+        sudo chown -R www-data:www-data "$WEB_DIR"
+        echo "Directory copy complete."
+    else
+        echo "Error: Directory $DIR_PATH not found. Please provide a valid directory path."
+        exit 1
+    fi
 fi
