@@ -10,7 +10,23 @@ Os objetos Display serão implementações de "Observador" e devem disponibiliza
 
 ## Como rodar o projeto
 
-```shell
-    pip install -r requirements.txt
-    python3 src/main.py
+### Pré configuração
+
+* Ubuntu:
+
+  ```bash
+  sudo apt-get install python3-pip
+  sudo apt-get install python3-tk
+  ```
+
+* Windows:
+  * Não é necessário instalar nada, apenas o Python 3.8 ou superior.
+
+### Instalação
+
+Após configurar o ambiente, instale as dependências do projeto:
+
+```bash
+pip install -r requirements.txt
+python3 src/main.py
 ```

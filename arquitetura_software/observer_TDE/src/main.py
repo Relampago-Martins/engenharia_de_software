@@ -27,7 +27,6 @@ if __name__ == "__main__":
 
     notificador.adicionar_observador(info_clima)
 
-    # Create and start the data collection thread
     thread_coleta = threading.Thread(
         target=coletar_dados_periodicamente,
         args=(sensor,),
@@ -35,5 +34,4 @@ if __name__ == "__main__":
     )
     thread_coleta.start()
 
-    # Main thread runs the UI loop
     root.mainloop()
