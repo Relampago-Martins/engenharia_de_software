@@ -23,7 +23,7 @@ class SensorClimatico:
 
             self._notificador.dados_mudaram()
 
-            time.sleep(3)
+            time.sleep(1)
 
     def _gerar_numero(self, min_num: int, max_num: int) -> int:
         """Gera um número aleatório entre min e max."""

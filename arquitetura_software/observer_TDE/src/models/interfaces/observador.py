@@ -15,7 +15,7 @@ class Observador(ABC):
 
 
 class ObservadorCoringa(Observador):
-    """Se inscreve em um observável e aplica uma callback qualquer"""
+    """Se inscreve em um observável e aplica uma callback qualquer."""
 
     def __init__(self, callback: callable) -> None:
         """Inicializa o observador com uma callback opcional."""
