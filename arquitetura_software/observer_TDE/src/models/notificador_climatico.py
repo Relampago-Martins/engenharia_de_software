@@ -39,6 +39,8 @@ class NotificadorClimatico(Observavel):
 
     def dados_mudaram(self) -> None:
         """Notifica os observadores que os dados mudaram."""
+        if not self._observadores:
+            return
         self._temperatura = self._equipamento.get_temperatura_atual()
         self._humidade = self._equipamento.get_humidade_atual()
         self._pressao = self._equipamento.get_pressao_atual()

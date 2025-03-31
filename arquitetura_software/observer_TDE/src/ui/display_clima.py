@@ -1,37 +1,33 @@
 import tkinter as tk
 
 from models.interfaces.observador import Observador
-from ui.botao import BotaoInscricao
+from models.interfaces.observavel import Observavel
 from ui.text import Text
 
 
 class DisplayClima(Observador):
-    """Pinta uma tela com as informações do clima atualizadas."""
+    """Display que apresenta as condições atuais do clima."""
 
-    def __init__(self, root: tk.Tk):
-        """Construtor da classe DisplayClima."""
-        self.root = root
-        self.root.title("Interface de Inscrição")
+    def __init__(self, parent: tk.Tk, notificador: Observavel) -> None:
+        """Inicializa o display com os widgets necessários.
 
-        # Criando os objetos de parâmetro
-        self.parametro1 = Text(root, "Temperatura", "0", linha=0)
-        self.parametro4 = Text(root, "Humidade", "0", linha=3)
-        self.parametro5 = Text(root, "Pressão", "0", linha=4)
+        Args:
+        ----
+            parent: O widget pai onde os elementos serão colocados.
+            notificador: O objeto que notifica as atualizações.
 
-        # Botão de inscrição como objeto
-        self.botao_inscricao = BotaoInscricao(
-            root,
-            linha=6,
-        )
+        """
+        self.parent = parent
+        self.notificador = notificador
+
+        # Cria os widgets para exibir os dados atuais
+        self.parametro1 = Text(parent, "Temperatura", "0", linha=0)
+        self.parametro4 = Text(parent, "Humidade", "0", linha=1)
+        self.parametro5 = Text(parent, "Pressão", "0", linha=2)
 
     def atualizar(self, temperatura: float, umidade: float, pressao: float) -> None:
         """Atualiza a tela com as informações do clima."""
-        self._temperatura = temperatura
-        self._humidade = umidade
-
         self.parametro1.label_valor.config(text=f"{temperatura:.2f} °C")
         self.parametro4.label_valor.config(text=f"{umidade:.2f} %")
         self.parametro5.label_valor.config(text=f"{pressao:.2f} hPa")
-
-        self.root.update_idletasks()
-        self.root.update()
+        self.parent.update_idletasks()

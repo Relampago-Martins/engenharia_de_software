@@ -11,7 +11,6 @@ class Observador(ABC):
     @abstractmethod
     def atualizar(self, *args: list, **kwargs: dict) -> None:
         """Método chamado quando o estado do observável muda."""
-        pass
 
 
 class ObservadorCoringa(Observador):
