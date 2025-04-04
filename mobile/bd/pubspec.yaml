@@ -1,4 +1,4 @@
-name: filmes
+name: bd_teste
 description: "A new Flutter project."
 
 
@@ -30,11 +30,13 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  uuid: 4.5.1
+
   
   
   cupertino_icons: ^1.0.8
-  logger: ^2.5.0
+  sqflite: ^2.4.2
+  path: ^1.9.1
+  uuid: ^4.5.1
 
 dev_dependencies:
   flutter_test:

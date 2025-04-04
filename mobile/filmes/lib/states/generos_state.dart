@@ -1,6 +1,7 @@
 import 'package:filmes/models/filme.dart';
 import 'package:filmes/models/genero.dart';
 import 'package:flutter/foundation.dart';
+import 'package:logger/logger.dart';
 
 class GenerosSingleton {
   // Private static instance
@@ -58,8 +59,10 @@ class GenerosSingleton {
 
   Filme? findFilmeByFilmeId(String filmeId) {
     for (var genero in generos) {
+      Logger().d("Logger is working! ${genero.nome}");
       for (var filme in genero.filmes) {
         if (filme.id == filmeId) {
+          Logger().d("Encontrou ${filme.titulo}");
           return filme;
         }
       }
@@ -77,5 +80,34 @@ class GenerosSingleton {
         return;
       }
     }
+  }
+
+  void updateFilmeOnGenero(Filme filme) {
+    Logger().d("Adicionando filme ${filme.titulo} ao gênero ${filme.genero}");
+    final currentGeneros = List<Genero>.from(generosNotifier.value);
+    for (var genero in currentGeneros) {
+      final index = genero.filmes.indexWhere((f) => f.id == filme.id);
+      if (index != -1) {
+        genero.filmes.removeAt(index);
+        Logger().d("Removei o filme ${filme.titulo} do gênero ${genero.nome}");
+      }
+    }
+    for (var genero in currentGeneros) {
+      if (genero.nome == filme.genero) {
+        genero.filmes.add(filme);
+        generosNotifier.value = currentGeneros;
+        return;
+      }
+    }
+
+    // If the genre is not found, append a new genre with that name and add the movie
+    Genero newGenero = Genero(
+      id: filme.genero,
+      nome: filme.genero,
+      filmes: [filme],
+    );
+    currentGeneros.add(newGenero);
+    generosNotifier.value = currentGeneros;
+    Logger().d("Adicionou o filme ${filme.titulo} ao gênero ${filme.genero}");
   }
 }

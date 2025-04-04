@@ -11,4 +11,4 @@
     - `./copy2www.sh -f <arquivo>`
     - `./copy2www.sh -d <diretório>`
 - `copyservice.sh` faz o copy2www.sh todo vez que o arquivo é modificado
-    - `./copyservice.sh -f <arquivo>`
+    - `./copyservice.sh -d <diretório>`

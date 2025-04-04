@@ -25,6 +25,13 @@ class _FilmePageState extends State<FilmePage> {
 
     Filme? filme = GenerosSingleton().findFilmeByFilmeId(filmeId['filmeId']);
 
+    if (filme != null) {
+      _idController.text = filme.id;
+      _tituloController.text = filme.titulo;
+      _diretorController.text = filme.diretor;
+      _generoController.text = filme.genero;
+    }
+
     return Scaffold(
       appBar: AppBar(title: Text('Detalhes do filme $filmeId')),
       body: Padding(
@@ -88,7 +95,7 @@ class _FilmePageState extends State<FilmePage> {
                           ),
                           if (filme != null)
                             {
-                              GenerosSingleton().updateFilme(
+                              GenerosSingleton().updateFilmeOnGenero(
                                 filme.copyWith(
                                   id: _idController.text,
                                   titulo: _tituloController.text,
@@ -100,7 +107,7 @@ class _FilmePageState extends State<FilmePage> {
                             },
                           if (filme == null)
                             {
-                              GenerosSingleton().updateFilme(
+                              GenerosSingleton().updateFilmeOnGenero(
                                 Filme(
                                   id: _idController.text,
                                   titulo: _tituloController.text,
@@ -110,7 +117,6 @@ class _FilmePageState extends State<FilmePage> {
                               ),
                               Navigator.of(context).pop(),
                             },
-                          Navigator.of(context).pop(),
                         },
                     },
                 child: Text('Salvar'),
