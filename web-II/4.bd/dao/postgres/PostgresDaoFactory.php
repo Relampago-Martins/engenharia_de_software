@@ -1,7 +1,8 @@
 <?php
 
-include_once('DaoFactory.php');
+include_once('../DaoFactory.php');
 include_once('PostgresUsuarioDao.php');
+include_once('PostgresVeiculosDao.php');
 
 class PostgresDaofactory extends DaoFactory {
 
@@ -19,7 +20,7 @@ class PostgresDaofactory extends DaoFactory {
         $this->conn = null;
   
         try{
-            $this->conn = new PDO("pgsql:host=" . $this->host . ";port=" . $this->port . ";dbname=" . $this->db_name, $this->username, $this->password );
+            $this->conn = new PDO("pgsql:host=" . $this->host . ";port=" . $this->port . ";dbname=" . $this->db_name, $this->username, $this->password);
             //$this->conn = new PDO("pgsql:host=localhost;port=5432;dbname=PHP_tutorial", $this->username, $this->password);
     
       }catch(PDOException $exception){
@@ -31,6 +32,12 @@ class PostgresDaofactory extends DaoFactory {
     public function getUsuarioDao() {
 
         return new PostgresUsuarioDao($this->getConnection());
+
+    }
+
+    public function getVeiculosDao(){
+
+        return new PostgresVeiculosDao($this->getConnection());
 
     }
 }

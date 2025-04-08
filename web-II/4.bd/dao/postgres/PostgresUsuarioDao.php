@@ -1,9 +1,9 @@
 <?php
 
 include_once('UsuarioDao.php');
-include_once('PostgresDao.php');
+include_once('dao/DAO.php');
 
-class PostgresUsuarioDao extends PostgresDao implements UsuarioDao {
+class PostgresUsuarioDao extends DAO implements UsuarioDao {
 
     private $table_name = 'usuario';
     
@@ -21,9 +21,9 @@ class PostgresUsuarioDao extends PostgresDao implements UsuarioDao {
         $stmt->bindParam(":nome", $usuario->getNome());
 
         if($stmt->execute()){
-            return true;
+            return $this->conn->lastInsertId();;
         }else{
-            return false;
+            return -1;
         }
 
     }
@@ -35,7 +35,7 @@ class PostgresUsuarioDao extends PostgresDao implements UsuarioDao {
         $stmt = $this->conn->prepare($query);
 
         // bind parameters
-        $stmt->bindParam(':id', $usuario->id);
+        $stmt->bindParam(':id', $usuario->getId());
 
         // execute the query
         if($stmt->execute()){
@@ -57,7 +57,7 @@ class PostgresUsuarioDao extends PostgresDao implements UsuarioDao {
         $stmt->bindParam(":login", $usuario->getLogin());
         $stmt->bindParam(":senha", $usuario->getSenha());
         $stmt->bindParam(":nome", $usuario->getNome());
-        $stmt->bindParam(':id', $usuario->id);
+        $stmt->bindParam(':id', $usuario->getId());
 
         // execute the query
         if($stmt->execute()){
@@ -70,6 +70,10 @@ class PostgresUsuarioDao extends PostgresDao implements UsuarioDao {
     public function buscaPorId($id) {
         
         $usuario = null;
+
+        if ($id == null) {
+            return null;
+        } 
 
         $query = "SELECT
                     id, login, nome, senha
@@ -127,8 +131,15 @@ class PostgresUsuarioDao extends PostgresDao implements UsuarioDao {
      
         $stmt = $this->conn->prepare( $query );
         $stmt->execute();
-     
-        return $stmt;
+
+        $usuarios = [];
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+
+            extract($row);
+            $usuario = new Usuario($id,$login,$senha,$nome); 
+            $usuarios[] = $usuario;
+        }
+        return $usuarios;
     }
 }
 ?>
