@@ -3,11 +3,11 @@
 -----------------------------------------------------------------------
 
 create table usuario (
-id serial not null,
-login varchar(30) not null unique,
-senha varchar(255) not null,
-nome varchar(255) not null,
-marca_nome varchar(40) not null
+    id serial not null,
+    login varchar(30) not null unique,
+    senha varchar(255) not null,
+    nome varchar(255) not null,
+    marca_nome varchar(40) not null
 );
 
 

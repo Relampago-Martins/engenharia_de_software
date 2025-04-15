@@ -1,5 +1,5 @@
 <?php
-include_once "fachada.php";
+include_once "../fachada.php";
 ?>
 
 <!DOCTYPE HTML>
@@ -33,16 +33,16 @@ include_once "fachada.php";
 	// procura usuários
 
 	$dao = $factory->getVeiculoDAO();
-	$usuarios = $dao->buscaTodos();
+	$veiculos = $dao->buscaTodos();
 
 
 	// mostra os usuários, se tiver
-	if($usuarios) {
+	if($veiculos) {
 	
 		echo "<table>";
 		echo "<tr>";
-			echo "<th>Id</th>";
-			echo "<th>Login</th>";
+			echo "<th>Cor</th>";
+			echo "<th>Placa</th>";
 			echo "<th>Nome</th>";
 			echo "<th>Excluir</th>";
 		echo "</tr>";
@@ -50,18 +50,18 @@ include_once "fachada.php";
 		//while ($row = $usuarios->fetch(PDO::FETCH_ASSOC)){
 		//	extract($row);
 
-		foreach ($usuarios as $umUsuario) {
+		foreach ($veiculos as $veiculo) {
 
 			echo "<tr>";
 				echo "<td>";
 				// link para editar um usuário
-				echo "<a href='editaUsuario.php?id={$umUsuario->getId()}'>{$umUsuario->getId()}</a>";
+				echo "<a href='editaVeiculo.php?id={$veiculo->getId()}'>{$veiculo->getCor()}</a>";
 				echo "</td>";
-				echo "<td>{$umUsuario->getLogin()}</td>";
-				echo "<td>{$umUsuario->getNome()}</td>";
+				echo "<td>{$veiculo->getPlaca()}</td>";
+				echo "<td>{$veiculo->getNome()}</td>";
 				echo "<td>";
 				// link para excluir um usuário
-				echo "<a href='excluiUsuario.php?id={$umUsuario->getId()}' onclick=\"return confirm('Quer mesmo excluir?');\">X</a>";
+				echo "<a href='excluiVeiculo.php?id={$veiculo->getId()}' onclick=\"return confirm('Quer mesmo excluir?');\">X</a>";
 				echo "</td>";
 	
 			echo "</tr>";

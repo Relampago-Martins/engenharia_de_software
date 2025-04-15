@@ -1,0 +1,10 @@
+{
+    "[php]": {
+        "editor.defaultFormatter": "wongjn.php-sniffer",
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.fixAll": "always",
+            "source.fixAll.php": "always"
+        }
+    }
+}

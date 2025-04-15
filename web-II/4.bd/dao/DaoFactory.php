@@ -5,6 +5,6 @@ abstract class DaoFactory {
 
     public abstract function getUsuarioDao();
 
-    public abstract function getVeiculosDao();
+    public abstract function getVeiculoDao();
 }
 ?>

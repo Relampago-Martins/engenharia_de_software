@@ -4,3 +4,6 @@
 [submodule "web-I/web-1-proj-1"]
 	path = web-I/web-1-proj-1
 	url = https://github.com/High-Martin/web-1-proj-1.git
+[submodule "arquitetura_software/matriculas"]
+	path = arquitetura_software/matriculas
+	url = https://github.com/High-Martin/matriculas.git

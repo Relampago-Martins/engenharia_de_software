@@ -5,8 +5,10 @@ class Veiculo{
     private $placa;
     private $cor;
     private $marca_id;
+    private $id;
 
-    public function __construct($nome, $ano, $placa, $cor, $marca_id) {
+    public function __construct($id, $nome, $ano, $placa, $cor, $marca_id) {
+        $this->id = $id;
         $this->nome = $nome;
         $this->ano = $ano;
         $this->placa = $placa;
@@ -51,6 +53,10 @@ class Veiculo{
     }
     public function setMarcaId($marca_id) {
         $this->marca_id = $marca_id;
+    }
+
+    public function getId() {
+        return $this->id;
     }
 }
 

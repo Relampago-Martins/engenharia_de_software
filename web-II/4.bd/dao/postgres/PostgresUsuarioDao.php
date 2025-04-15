@@ -1,7 +1,7 @@
 <?php
 
-include_once('UsuarioDao.php');
-include_once('dao/DAO.php');
+include_once('../UsuarioDao.php');
+include_once('../DAO.php');
 
 class PostgresUsuarioDao extends DAO implements UsuarioDao {
 
