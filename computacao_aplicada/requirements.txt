@@ -1,0 +1,13 @@
+# Core
+numpy>=1.24
+pandas>=2.0
+
+# ML (opcional; habilita KMeans no script)
+scikit-learn>=1.3
+
+# Kernel p/ notebooks (VS Code)
+ipykernel>=6.25
+
+# Jupyter clássico/Lab (opcional; VS Code não precisa, Colab já tem)
+# notebook>=7.0
+# jupyterlab>=4.0

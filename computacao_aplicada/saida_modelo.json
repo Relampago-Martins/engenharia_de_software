@@ -1,0 +1,46 @@
+[
+  {
+    "ticker": "NVDA",
+    "nome": "NVIDIA Corporation",
+    "cotacao": 880.12,
+    "dividend_yield": 0.0002,
+    "preco_alvo": 985.73,
+    "decisao_investimento": "comprar",
+    "rentabilidade_estimada": 12.0,
+    "risco": "baixo",
+    "ranking": 1
+  },
+  {
+    "ticker": "META",
+    "nome": "Meta Platforms, Inc.",
+    "cotacao": 490.37,
+    "dividend_yield": 0.0022,
+    "preco_alvo": 527.07,
+    "decisao_investimento": "manter",
+    "rentabilidade_estimada": 7.48,
+    "risco": "baixo",
+    "ranking": 2
+  },
+  {
+    "ticker": "KO",
+    "nome": "The Coca-Cola Company",
+    "cotacao": 61.45,
+    "dividend_yield": 0.0299,
+    "preco_alvo": 64.52,
+    "decisao_investimento": "manter",
+    "rentabilidade_estimada": 5.0,
+    "risco": "médio",
+    "ranking": 3
+  },
+  {
+    "ticker": "AAPL",
+    "nome": "Apple Inc.",
+    "cotacao": 190.23,
+    "dividend_yield": 0.005,
+    "preco_alvo": 199.74,
+    "decisao_investimento": "vender",
+    "rentabilidade_estimada": 5.0,
+    "risco": "alto",
+    "ranking": 4
+  }
+]
